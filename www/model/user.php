@@ -114,7 +114,8 @@ function insert_user($db, $name, $password){
   // 連想配列で値をバインドする
   $params = array(
     ':name' => $name,
-    ':password' => $password);
+    ':password' => $password
+  );
 
   return execute_query($db, $sql, $params);
 }
