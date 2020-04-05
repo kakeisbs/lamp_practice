@@ -19,6 +19,7 @@ function get_db_connect(){
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
+    // $paramsにプレースホルダーの値をバインドしたものを格納し、executeの実行の際にエスケープ処理を行う
     $statement->execute($params);
     return $statement->fetch();
   }catch(PDOException $e){
@@ -41,6 +42,7 @@ function fetch_all_query($db, $sql, $params = array()){
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
+    // プレースホルダーのバインド, execute実行時にエスケープ処理を行う
     return $statement->execute($params);
   }catch(PDOException $e){
     set_error('更新に失敗しました。');
