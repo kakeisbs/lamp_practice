@@ -14,6 +14,13 @@ $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
 
 $db = get_db_connect();
+// フォームで埋め込まれていたトークンを$check_csrf_tokenに入れる
+$check_csrf_token = get_post('token');
+// トークンが一致しているかチェック
+if(is_valid_csrf_token($check_csrf_token) === false) {
+  set_error('不正なアクセスです。');
+  redirect_to(SIGNUP_URL);
+}
 
 try{
   $result = regist_user($db, $name, $password, $password_confirmation);

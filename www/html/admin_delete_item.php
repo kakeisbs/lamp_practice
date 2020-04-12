@@ -20,6 +20,12 @@ if(is_admin($user) === false){
 
 $item_id = get_post('item_id');
 
+$check_csrf_token = get_post('token');
+
+if(is_valid_csrf_token($check_csrf_token) === false) {
+  set_error('不正なアクセス');
+  redirect_to(ADMIN_URL);
+}
 
 if(destroy_item($db, $item_id) === true){
   set_message('商品を削除しました。');

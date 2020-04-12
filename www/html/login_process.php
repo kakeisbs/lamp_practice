@@ -14,8 +14,14 @@ $password = get_post('password');
 
 $db = get_db_connect();
 
+$check_csrf_token = get_post('token');
 
-$user = login_as($db, $name, $password);
+if (is_valid_csrf_token($check_csrf_token) === false) {
+  set_error('不正なアクセスです。');
+  redirect_to(LOGIN_URL);
+}
+
+$user = login_as($db, $name, $password,);
 if( $user === false){
   set_error('ログインに失敗しました。');
   redirect_to(LOGIN_URL);

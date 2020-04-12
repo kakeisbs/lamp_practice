@@ -16,6 +16,12 @@ $user = get_login_user($db);
 
 $cart_id = get_post('cart_id');
 
+$check_csrf_token = get_post('token');
+
+if(is_valid_csrf_token($check_csrf_token) === false) {
+  set_error('不正なアクセスです');
+  redirect_to(CART_URL);
+}
 if(delete_cart($db, $cart_id)){
   set_message('カートを削除しました。');
 } else {

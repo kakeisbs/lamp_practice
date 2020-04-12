@@ -13,6 +13,11 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
+
 $items = get_open_items($db);
+
+$csrf_token = get_csrf_token();
+
+header('X-FRAME-OPTIONS: DENY');
 
 include_once VIEW_PATH . 'index_view.php';
