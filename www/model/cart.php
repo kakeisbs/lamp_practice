@@ -1,6 +1,8 @@
 <?php 
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
+require_once MODEL_PATH . 'order.php';
+require_once MODEL_PATH . 'order_detail.php';
 
 function get_user_carts($db, $user_id){
   $sql = "
@@ -129,44 +131,44 @@ function purchase_carts($db, $carts){
   }
   $db->beginTransaction();
 
-  // 購入された分在庫を減らす
-  foreach($carts as $cart){
-    if(update_item_stock(
-        $db, 
-        $cart['item_id'], 
-        $cart['stock'] - $cart['amount']
-      ) === false){
-      set_error($cart['name'] . 'の購入に失敗しました。');
+    // 購入された分在庫を減らす
+    foreach($carts as $cart){
+      if(update_item_stock(
+          $db, 
+          $cart['item_id'], 
+          $cart['stock'] - $cart['amount']
+        ) === false){
+        set_error($cart['name'] . 'の購入に失敗しました。');
+      }
     }
-  }
 
-  if(insert_order($db, $carts[0]['user_id']) === false){
-    set_error('データ保存に失敗しました。');
-  };
-
-  $order_id = $db->lastInsertID();
-
-  foreach($carts as $cart) {
-    if(insert_order_detail(
-      $db,
-      $order_id,
-      $cart['item_id'],
-      $cart['price'],
-      $cart['amount']
-    ) === false) {
+    if(insert_order($db, $carts[0]['user_id']) === false){
       set_error('データ保存に失敗しました。');
     };
-  }
-  // カートの中身を消す処理
-  if(delete_user_carts($db, $carts[0]['user_id']) === false) {
-    set_error('データ更新に失敗しました。');
-  };
 
-  if(has_error() === 0) {
+    $order_id = $db->lastInsertID();
+
+    foreach($carts as $cart) {
+      if(insert_order_detail(
+        $db,
+        $order_id,
+        $cart['item_id'],
+        $cart['price'],
+        $cart['amount']
+      ) === false) {
+        set_error('データ保存に失敗しました。');
+      };
+    }
+    // カートの中身を消す処理
+    if(delete_user_carts($db, $carts[0]['user_id']) === false) {
+      set_error('データ更新に失敗しました。');
+    };
+
+    if(has_error() === false) {
     $db->commit();
     return true;
   }
-
+  
   $db->rollback();
   return false;
 
