@@ -18,10 +18,12 @@ $carts = get_user_carts($db, $user['user_id']);
 
 $check_csrf_token = get_post('token');
 
+
 if(is_valid_csrf_token($check_csrf_token) === false) {
   set_error('不正なアクセス');
   redirect_to(CART_URL);
 }
+
 
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');

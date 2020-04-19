@@ -27,7 +27,7 @@ $image = get_file('image');
 
 $check_csrf_token = get_post('token');
 
-if(is_vaild_csrf_token($check_csrf_token) === false) {
+if(is_valid_csrf_token($check_csrf_token) === false) {
   set_error('不正なアクセス');
   redirect_to(ADMIN_URL);
 }
