@@ -2,26 +2,24 @@
 require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
-require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'order.php';
 
 session_start();
 
 if(is_logined() === false){
-  redirect_to(LOGIN_URL);
+    redirect_to(LOGIN_URL);
 }
 
 $db = get_db_connect();
-
 $user = get_login_user($db);
 
-if(is_admin($user) === false){
-  redirect_to(LOGIN_URL);
+if(is_admin($user) === false) {
+    $orders = get_user_orders($db, $user['user_id']);
+}else {
+    $orders = get_orders($db);
 }
-
-$items = get_all_items($db);
 
 $csrf_token = get_csrf_token();
 header('X-FRAME-OPTIONS: DENY');
 
-include_once VIEW_PATH . '/admin_view.php';
+include_once VIEW_PATH . 'order_view.php';
