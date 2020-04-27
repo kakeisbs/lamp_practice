@@ -27,12 +27,11 @@
                         <tr>
                             <td><?php print h($order['order_id']); ?></td>
                             <td><?php print h($order['created']); ?></td>
-                            <td><?php print h(number_format($order['SUM(order_details.price * order_details.amount)'])); ?>円</td>
+                            <td><?php print h(number_format($order['total_price'])); ?>円</td>
                             <td>
-                                <form action="order_detail.php" method="get">
+                                <form action="<?php print h(ORDER_DETAIL_URL);?>" method="get">
                                     <input type="submit" class="btn btn-block" value="購入明細画面">
                                     <input type="hidden" name="order_id" value="<?php print h($order['order_id']);?>">
-                                    <input type="hidden" name="token" value="<?php print h($csrf_token); ?>">
                                 </form>
                             </td>
                         </tr>

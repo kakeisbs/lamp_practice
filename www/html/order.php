@@ -16,7 +16,7 @@ $user = get_login_user($db);
 if(is_admin($user) === false) {
     $orders = get_user_orders($db, $user['user_id']);
 }else {
-    $orders = get_orders($db);
+    $orders = get_all_orders($db);
 }
 
 $csrf_token = get_csrf_token();
