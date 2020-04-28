@@ -16,8 +16,8 @@
 
         <div class="contents">
             <span>注文番号:<?php print h($order_id); ?></span>
-            <span>購入日時:<?php print h($orders['created']); ?></span>
-            <span>合計:<?php print h(number_format($orders['total_price'])); ?>円</span>
+            <span>購入日時:<?php print h($order['created']); ?></span>
+            <span>合計:<?php print h(number_format($order['total_price'])); ?>円</span>
         </div>
         <table class="table table-bordered">
             <thead class="thead-light">
