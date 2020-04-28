@@ -23,7 +23,7 @@ $item_id = get_post('item_id');
 $check_csrf_token = get_post('token');
 
 if(is_valid_csrf_token($check_csrf_token) === false) {
-  set_error('不正なアクセス');
+  set_error('不正なアクセスです。');
   redirect_to(ADMIN_URL);
 }
 
