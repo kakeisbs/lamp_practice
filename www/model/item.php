@@ -40,7 +40,6 @@ function get_items($db, $is_open = false){
       WHERE status = 1
     ';
   }
-
   return fetch_all_query($db, $sql);
 }
 
@@ -164,7 +163,28 @@ function delete_item($db, $item_id){
   return execute_query($db, $sql, $params);
 }
 
-
+// ソート情報記載  // get送信された文字列を$strに代入
+function items_sort($db, $str) {
+  $sql = "
+    SELECT
+      *
+    FROM
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      CASE ?
+        WHEN 'created_DESC' THEN created
+      END DESC,
+      CASE ?
+        WHEN 'price_ASC' THEN price
+      END ASC,
+      CASE ?
+      WHEN 'price_DESC' THEN price
+      END DESC
+  ";
+    return fetch_all_query($db, $sql, array($str, $str, $str));
+}
 // 非DB
 
 function is_open($item){
