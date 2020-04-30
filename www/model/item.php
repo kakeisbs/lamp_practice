@@ -23,7 +23,7 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql, $params);
 }
 
-function get_items($db, $is_open = false){
+function get_items($db, $is_open = false, $sort = 'created_DESC'){
   $sql = '
     SELECT
       item_id, 
@@ -40,6 +40,23 @@ function get_items($db, $is_open = false){
       WHERE status = 1
     ';
   }
+  if($sort === 'created_DESC') {
+    $sql .= '
+      ORDER BY
+        created DESC
+    ';
+  }else if($sort === 'price_ASC') {
+    $sql .= '
+      ORDER BY
+        price ASC
+    ';
+  }else if($sort === 'price_DESC') {
+    $sql .= '
+      ORDER BY
+        price DESC
+    ';
+  }
+
   return fetch_all_query($db, $sql);
 }
 
@@ -47,8 +64,8 @@ function get_all_items($db){
   return get_items($db);
 }
 
-function get_open_items($db){
-  return get_items($db, true);
+function get_open_items($db, $sort){
+  return get_items($db, true, $sort);
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){
@@ -163,31 +180,32 @@ function delete_item($db, $item_id){
   return execute_query($db, $sql, $params);
 }
 
-// ソート情報記載  // get送信された文字列を$strに代入
-function items_sort($db, $str) {
-  $sql = "
+// ソート情報記載 get送信された文字列を$strに代入
+function items_sort($db, $sort) {
+  $sql = '
     SELECT
       *
     FROM
       items
     WHERE 
       status = 1
-    ORDER BY
-      CASE ?
-        WHEN 'created_DESC' THEN created
-      END DESC,
-      CASE ?
-        WHEN 'price_ASC' THEN price
-      END ASC,
-      CASE ?
-      WHEN 'price_DESC' THEN price
-      END DESC
-  ";
-
-  $params = array($str, $str, $str);
-  
-  return fetch_all_query($db, $sql, $params);
+  ';
+  if($sort === 'created_DESC') {
+    $sql .= '
+      ORDER BY created DESC
+    ';
+  }else if($sort === 'price_ASC') {
+    $sql .= '
+      ORDER BY price ASC
+    ';
+  }else if($sort === 'price_DESC') {
+    $sql .= '
+      ORDER BY price DESC
+    ';
+  }
+  return fetch_all_query($db, $sql);
 }
+
 // 非DB
 
 function is_open($item){
