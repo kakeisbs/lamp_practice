@@ -183,7 +183,10 @@ function items_sort($db, $str) {
       WHEN 'price_DESC' THEN price
       END DESC
   ";
-    return fetch_all_query($db, $sql, array($str, $str, $str));
+
+  $params = array($str, $str, $str);
+  
+  return fetch_all_query($db, $sql, $params);
 }
 // 非DB
 
