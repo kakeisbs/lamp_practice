@@ -180,32 +180,6 @@ function delete_item($db, $item_id){
   return execute_query($db, $sql, $params);
 }
 
-// ソート情報記載 get送信された文字列を$strに代入
-function items_sort($db, $sort) {
-  $sql = '
-    SELECT
-      *
-    FROM
-      items
-    WHERE 
-      status = 1
-  ';
-  if($sort === 'created_DESC') {
-    $sql .= '
-      ORDER BY created DESC
-    ';
-  }else if($sort === 'price_ASC') {
-    $sql .= '
-      ORDER BY price ASC
-    ';
-  }else if($sort === 'price_DESC') {
-    $sql .= '
-      ORDER BY price DESC
-    ';
-  }
-  return fetch_all_query($db, $sql);
-}
-
 // 非DB
 
 function is_open($item){
