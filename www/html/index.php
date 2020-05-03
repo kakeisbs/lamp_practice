@@ -13,7 +13,6 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
-
 $sort = get_get('sort','created_DESC');
 
 $items = get_open_items($db, $sort);

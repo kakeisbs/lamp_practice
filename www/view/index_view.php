@@ -19,9 +19,9 @@
       <div class="col-6 text-right">
         <form method="get">
           <select name="sort">
-            <option value="created_DESC" <?= $sort == 'created_DESC' ? 'selected' : "" ?>>新着順</option>
-            <option value="price_ASC"<?= $sort == 'price_ASC' ? 'selected' : "" ?>>価格の低い順</option>
-            <option value="price_DESC"<?= $sort == 'price_DESC' ? 'selected' : "" ?>>価格の高い順</option>
+            <option value="created_DESC" <?= $sort === 'created_DESC' ? 'selected' : '' ?>>新着順</option>
+            <option value="price_ASC" <?= $sort === 'price_ASC' ? 'selected' : '' ?>>価格の低い順</option>
+            <option value="price_DESC" <?= $sort === 'price_DESC' ? 'selected' : '' ?>>価格の高い順</option>
           </select>
 
           <input type="submit" value="並び替え">
